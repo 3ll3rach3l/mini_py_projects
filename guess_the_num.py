@@ -12,4 +12,4 @@ def guess(x):
         
     print(f'Winner, winner, chicken dinner! You have guessed the number {random_number} correctly!')
 
-guess(20)
+guess(10)
