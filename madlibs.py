@@ -1,6 +1,6 @@
 adj = input("Adjective: ")
-verb1 = input("Verb: ")
-verb2 = input("Verb: ")
+verb1 = input("Verb, present: ")
+verb2 = input("Verb, present: ")
 famous_person = input("Famous person: ")
 
 madlib = f"Computer programming is so {adj}! It makes me so excited all the time \
