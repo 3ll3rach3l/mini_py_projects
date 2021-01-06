@@ -1,3 +1,5 @@
+from player import HumanPlayer, RandomComputerPlayer
+import time
 class TicTacToe:
     def __init__(self):
         self.board = [' ' for _ in range(9)] #we will use a single list to rep 3x3 board
@@ -16,18 +18,11 @@ class TicTacToe:
             print('| ' + ' | '.join(row) + ' |')
 
     def available_moves(self):
-       '''
-        moves = []
-        for (i, spot) in enumerate(self.board):
-            #['x', 'x', 'o'] --> [(0, 'x'), (1, 'x'), (2, 'o')]
-            if spot == ' ':
-                moves.append(i)
-        return moves
-        '''
-        #list comprehension below is condensed version of above
         return [i for i, spot in enumerate(self.board) if spot == ' ']
+      
+        #list comprehension below is condensed version of above
 
-    def empty_square(self,):
+    def empty_square(self):
         return ' ' in self.board
 
     def num_empty_squares(self):
@@ -36,7 +31,7 @@ class TicTacToe:
     def make_move(self, square, letter):
         #if valid move, then make the move (assign square to letter)
         # then return true. if invalid, return false
-        if self.board(square) == ' ':
+        if self.board[square] == ' ':
             self.board[square] = letter
             if self.winner(square, letter):
                 self.current_winner = letter
@@ -55,7 +50,7 @@ class TicTacToe:
         if all([spot == letter for spot in column]):
             return True
         #check diagonals --squares must be an even number to win
-        if square % == 0:
+        if square % 2 == 0:
             diagonal1 = [self.board[i] for i in [0, 4, 8]] #left to right
             if all([spot == letter for spot in diagonal1]):
                 return True
@@ -76,7 +71,7 @@ def play(game, x_player, o_player, print_game=True):
     letter = 'X' # starting letter
     #iterate while the game still has empty squares -- we dont have to worry about winner
     #bc we'll just return that which breaks the loop
-    while game.empty_squares():
+    while game.empty_square():
         if letter == 'O':
             square = o_player.get_move(game)
         else:
@@ -102,7 +97,15 @@ def play(game, x_player, o_player, print_game=True):
             else:
                 letter = 'X'
             '''
-            if print_game:
-                print('It\s a tie!')
+
+        time.sleep(0.8) #added this to give a brief pause before computer makes move
+
+    if print_game:
+        print('It\'s a tie!')
 
 
+if __name__ == '__main__':
+    x_player = HumanPlayer('X')
+    o_player = RandomComputerPlayer('O')
+    t = TicTacToe()
+    play(t, x_player, o_player, print_game=True)
