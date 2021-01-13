@@ -27,7 +27,7 @@ def get_words_from_text(text_path):
 
         # remove [verse 1: artist]
         # include the following line if you are doing song lyrics
-        # text = re.sub(r'\[(.+)\]', ' ', text)
+        text = re.sub(r'\[(.+)\]', ' ', text)
 
         text = ' '.join(text.split()) #turns whitespace into a space
         text = text.lower()
@@ -70,14 +70,20 @@ def compose(g, words, length=50):
     return composition
 
 
-def main():
+def main(artist):
     #step 1: get words from text
-    words = get_words_from_text('texts/hp_sorcerer_stone.txt') #pass in any text file
 
-    # for song in os.listdir('songs/{}'.format(artist)):
-        # if song == '.DS_Store':
-        #     continue
-        # words.extend(get_words_from_text('songs/{artist}/{song}'.format(artist=artist, song=song)))
+    #words = get_words_from_text('texts/hp_sorcerer_stone.txt') #pass in any text file
+    
+    #for song lyrics
+    words = []
+    for song in os.listdir(f'songs/{artist}'):
+        if song == '.DS_Store':
+            continue
+
+        song_words = get_words_from_text(f'songs/{artist}/{song}')
+        words.extend(song_words)
+        
     #step 2: make a graph using those words  
     g = make_graph(words)
     composition = compose(g, words, 100)
@@ -85,4 +91,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main('queen')
