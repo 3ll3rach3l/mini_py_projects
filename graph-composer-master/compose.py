@@ -16,6 +16,11 @@ import string
 import random
 from graph import Graph, Vertex
 
+
+
+#step 3: get the next word for x num of words
+#step 4: show the user!
+
 def get_words_from_text(text_path):
     with open(text_path, 'rb') as file:
         text = file.read().decode("utf-8") 
@@ -24,11 +29,11 @@ def get_words_from_text(text_path):
         # include the following line if you are doing song lyrics
         # text = re.sub(r'\[(.+)\]', ' ', text)
 
-        text = ' '.join(text.split())
+        text = ' '.join(text.split()) #turns whitespace into a space
         text = text.lower()
-        text = text.translate(str.maketrans('', '', string.punctuation))
+        text = text.translate(str.maketrans('', '', string.punctuation)) #removes punctuation
 
-    words = text.split()
+    words = text.split() 
 
     words = words[:1000]
 
@@ -47,7 +52,7 @@ def make_graph(words):
         # if exists, increment weight by 1
         if prev_word:  # prev word should be a Vertex
             # check if edge exists from previous word to current word
-            prev_word.increment_edge(word_vertex)
+            prev_word.increment_edge(word_vertex) #implemented in graph.py
 
         prev_word = word_vertex
 
@@ -57,7 +62,7 @@ def make_graph(words):
 
 def compose(g, words, length=50):
     composition = []
-    word = g.get_vertex(random.choice(words))
+    word = g.get_vertex(random.choice(words)) #pick a random word to start
     for _ in range(length):
         composition.append(word.value)
         word = g.get_next_word(word)
@@ -66,13 +71,14 @@ def compose(g, words, length=50):
 
 
 def main():
-    words = get_words_from_text('texts/hp_sorcerer_stone.txt')
+    #step 1: get words from text
+    words = get_words_from_text('texts/hp_sorcerer_stone.txt') #pass in any text file
 
     # for song in os.listdir('songs/{}'.format(artist)):
         # if song == '.DS_Store':
         #     continue
         # words.extend(get_words_from_text('songs/{artist}/{song}'.format(artist=artist, song=song)))
-        
+    #step 2: make a graph using those words  
     g = make_graph(words)
     composition = compose(g, words, 100)
     print(' '.join(composition))
